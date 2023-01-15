@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Dead Drop Stats</title>
+	<link href="/css/stats.css" rel="stylesheet" type="text/css">
+	<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="../../excanvas.min.js"></script><![endif]-->
+	<script language="javascript" type="text/javascript" src="/js/jquery.min.js"></script>
+	<script language="javascript" type="text/javascript" src="/js/jquery.flot.min.js"></script>
+	<script language="javascript" type="text/javascript" src="/js/jquery.flot.time.min.js"></script>
+	<script type="text/javascript">
+
+	$(function() {
+
+        var statsData =[];
+        var json = $.getJSON('/stats/json',function(data){
+
+			//display time issue, set the second data set (uniques) to use axis 2
+            $.plot("#placeholder", [{
+				data: data[0]['data'],
+				lines: { show: true, fill: true },
+				yaxes: 1,
+				label: data[0]['label']
+				},
+				{
+				data: data[1]['data'],
+				bars: { show: true, fill: true ,barWidth : 60*60*10000},
+				yaxis: 2,
+				label: data[1]['label']
+				}
+			],
+			{   xaxis: 
+                {
+                    mode: "time",   
+                    timeformat: "%b %d",
+                    tickSize: [7, "day"]
+                },
+				yaxes: [ 
+					{ min: 0 ,position: "left"}, 
+					{
+						// align if we are to the right
+						alignTicksWithAxis: 1,
+						position: "right",
+					} 
+				],
+				legend: { position: "sw" }
+            });
+		});
+	});
+
+	</script>
+</head>
+<body>
+
+	<div id="header">
+		<h2>Stats</h2>
+	</div>
+
+	<div id="content">
+
+		<div class="demo-container">
+			<div id="placeholder" class="demo-placeholder"></div>
+		</div>
+
+
+	</div>
+
+
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta property="og:image" content="/images/Skull_big.jpg" />
+    <meta name="author" content="bill@bigmojo.net">
+    <meta name="robots" content="index, follow">
+    <meta name="revisit-after" content="3 month">
+    <title>生成文本链接，三天之后才能访问</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta property="og:title" content="Send Secure information, passwords, links, dead drop" /
+    ><meta name="description" content="Allows you to create a one-time use link to securely send passwords or other information" />
+    <meta name="keywords" content="dead drop,security,encryption,passwords,secure" />
+    <meta name="revisit-after" content="3 month" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- secure, password, encryption ->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="~/js/html5shiv.js"></script>
+    <script src="~/js/respond.min.js"></script>
+
+    <![endif]-->
+
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css" /><link rel="stylesheet" href="/css/deaddrop.css" />
+    <link rel="shortcut icon" href="/images/Skull_big.jpg">
+
+
+    <script>
+        {% if id %}
+            var dropid='{{id}}';
+        {% endif %}
+    </script>
+
+
+</head>
+<body>
+    <form>
+        <div class="container">
+            <div class=" page-header">
+                
+                <h1>发送文本</h1>
+                <p class="intro-text">你可用来发送文本，密码，现在三天后才能访问</p>
+            </div>
+            <!-- end header -->
+
+            <div id="MakeDrop">
+                <div class="arrow_box arrow_box_info">
+                    <p>输入您要发送的消息，将会生成链接和密码</p>
+                </div>
+                <div class="panel-body">
+                    <input name="message" id="message" type="password" placeholder="输入你要加密的文本" class="form-control input-lg" rows="11"></input>
+                </div>
+                <button type="button" class="btn btn-lg btn-primary" onclick="setDrop()">生成</button>
+            </div>
+            <!-- end make your drop -->
+
+
+            <div id="DropComplete">
+                <div class="alert-success arrow_box arrow_box_success">
+                    <h2>成功!</h2>
+                    <p>生成的链接三天之后才能解密</p>
+                </div>
+                <div class="panel-body">
+                    <div class="drop-complete">
+                        <!-- <p class="intro-text">
+                            Hi,<br />
+                            I'm sending you some secure information.<br />
+                        </p> -->
+                        <div class="well location-well">
+                            链接: <span id="url"></span><br /><br />        
+                            密码: <span id="pass"></span>
+                        </div>
+
+                        <div class="warning">
+                            <p>警告!</p>
+                            <ul>
+                                <li>此链接只能使用一次，三天后才能获取文本</li>
+                                <li>拿到数据后，数据会自毁，此链接将不再有效。</li>
+                            </ul>
+                        </div>
+                            
+                    </div>
+                    
+                </div>
+                <button type="button" class="btn btn-lg btn-primary" onclick="window.location.assign(getHost())">再来一次</button>
+            </div>
+            <!-- end drop complete -->
+
+
+            <div id="RetrieveDrop">
+                <div class="arrow_box arrow_box_info">
+                    <h2>输入密码</h2>
+                    <p>只能获取<strong>一次</strong> 之后将会<strong>永久删除</strong>此链接密码</p>
+                </div>
+                <div class="panel-body">
+                    <input type="text" id="password" class="form-control input-lg" placeholder="输入密码" size="25" />
+                </div>
+                <button type="button" class="btn btn-lg btn-primary" onclick="getDrop()">获取</button>
+            </div>
+            <!-- end retrieve your drop -->
+
+
+            <div id="DisplayDrop">
+                <div class="alert-success arrow_box arrow_box_success">
+                    <h2>成功!</h2>
+                    <p>您的解密消息如下。 此消息已被删除，您将无法再次检索它。</p>
+                </div>
+                <div class="panel-body">
+                    <pre id="decrypted" />
+                </div>
+                <button type="button" class="btn btn-lg btn-primary" onclick="window.location.assign(getHost())">开始</button>
+            </div>
+            <!-- end display dead drop -->
+
+
+            <br /><br />
+            <!-- <a href="#demo" data-toggle="collapse">Is this safe?</a>
+
+            <div id="demo" class="collapse">
+                <p>Here's why your message is safe:</p>
+
+                <ul>
+                    <li>Your message is not transmitted unencrypted</li>
+                    <li>Your message is not stored unencrypted</li>
+                    <li>Your encrypted message is stored for 24 hours, then deleted</li>
+                    <li>Once your message is retrieved, it is deleted</li>
+                    <li>If there is a problem retrieving your message, including an incorrect password, it is deleted.</li>
+                    <li>We cannot decrypt your message, we simply don't have the password</li>
+                </ul>
+                <p>
+                    The security of the encryption used is handled by the Symmetric Encryption engine developed at <a target="_blank" href="http://bitwiseshiftleft.github.io/sjcl/">Stanford</a>.<br>
+                </p>
+                <p>
+                    The largest threat associated with this method is having your message & password both intercepted and retrieved before your intended recipient has an opportunity to retrieve it.
+                    You should be mindful of how you transmit these pieces of information, and ideally send the password separate from the link.
+                </p>
+                <h2>What if you're lying?</h2>
+                Well, you're a clever person, have a look at the <a href="https://github.com/BillKeenan/dead-drop-python" target="_blank">code.</a> on github
+            </div> -->
+
+            <!-- <div>
+                 <h2>Suggestions? Ideas?</h2>
+                <script>document.write('<'+'a'+' '+'h'+'r'+'e'+'f'+'='+"'"+'m'+'&'+'#'+'9'+'7'+';'+'i'+'l'+'t'+'&'+'#'+'1'+'1'+'1'+';'+'&'+
+                        '#'+'5'+'8'+';'+'&'+'#'+'9'+'8'+';'+'i'+'%'+'6'+'C'+'%'+'6'+'C'+'%'+'4'+'0'+'b'+'%'+'6'+'9'+'g'+'%'+
+                        '&'+'#'+'5'+'4'+';'+'D'+'o'+'j'+'&'+'#'+'3'+'7'+';'+'6'+'F'+'&'+'#'+'4'+'6'+';'+'%'+'6'+'E'+'%'+'6'+
+                        '&'+'#'+'5'+'3'+';'+'t'+"'"+'>'+'b'+'i'+'l'+'l'+'&'+'#'+'6'+'4'+';'+'b'+'&'+'#'+'1'+'0'+'5'+';'+'g'+
+                        'm'+'o'+'j'+'o'+'&'+'#'+'4'+'6'+';'+'n'+'&'+'#'+'1'+'0'+'1'+';'+'t'+'<'+'/'+'a'+'>');</script><noscript>[Turn on JavaScript to see the email address]</noscript>
+
+                <h2>Want to help pay the bills?</h2>
+
+            <p class="intro-text">
+                <img src="/images/icon_bitcoin.png" alt="bitcoin">: 12hKGoUhULXQvcG8Lfboy9UE4fS9YtUwwy<br>
+                <img src="/images/icon_litecoin.png" alt="litecoin">: LUeNp4gjN85cnp7VqBtLto9x4raxV5MjMK
+            </p> -->
+            </div>
+            <!-- end 'is this safe' -->
+            
+
+        </div>
+        <!-- end container -->
+    </form>
+..
+    <!-- Bootstrap core JavaScript
+================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/js/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/sjcl.js"></script>
+    <script>
+      var s = document.createElement('script');
+
+      var src = "/js/deaddrop.js?cacheBreak="+Math.floor((Math.random() * 1000000) + 1);
+      s.setAttribute('src',src);
+      document.body.appendChild( s );
+    </script>
+    <script src="/js/merseen.js"></script>
+</body>
+</html>
